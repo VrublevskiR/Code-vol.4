@@ -1,27 +1,37 @@
 #include <iostream>
+#include <limits>
 using namespace std;
 
 int main()
 {
-    int n; int m;
-    cin >> n;
-    cin >> m;
-    str a[n][m];
-    for(int i=0;i<n;i++)
+  int n, m;
+
+  cin >> n;
+  cin >> m;
+
+  cin.ignore(numeric_limits<streamsize>::max(), '\n'); // очистка буфера ввода от символа окончания строки
+
+  char a[n][m + 1];
+  char b[m + 1];
+
+  for (int i = 0; i < n; i++) // ввод массива строк
+  {
+    cin.getline(b, m + 1);
+    for (int q = 0; q <= m + 1; q++)
     {
-      for(int j=0;j<m;j++)
-      {
-      cin >> a[i][j];
-      }
+      a[i][q] = b[q];
     }
-    cout<<endl;
-    for(int j=0;j<m;j++)
+  }
+
+  cout << endl;
+
+  for (int i = m - 1; i >= 0; i--) // поворот на pi/2 пр. час. стр.
+  {
+    for (int j = 0; j < n; j++)
     {
-      for(int i=0;i<n;i++)
-      {
-      cout << a[i][j]<<" ";
-      }
-      cout <<endl;
+      cout << a[j][i];
     }
-    return 0;
+    cout << endl;
+  }
+  return 0;
 }
