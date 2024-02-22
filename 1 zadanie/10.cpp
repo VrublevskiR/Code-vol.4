@@ -40,8 +40,9 @@ int main() // один непонятный пример
     return 0;
 }*/
 
-int SieveOfEratosthenes(int n, int m)
+int Prime_number(int m)
 {
+    int n = 1000000;
     bool prime[n + 1];
     std::memset(prime, true, sizeof(prime)); // заполнить массив prime эл-тами true
 
@@ -70,8 +71,8 @@ int SieveOfEratosthenes(int n, int m)
 
 int main()
 {
-    int n = 1000000, m;
+    int m;
     cin >> m;
-    cout << SieveOfEratosthenes(n, m);
+    cout << Prime_number(m);
     return 0;
 }
