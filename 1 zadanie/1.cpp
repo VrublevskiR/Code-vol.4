@@ -1,10 +1,15 @@
 #include <iostream>
 using namespace std;
 
+bool is_simple(int n)
+{
+}
 int main()
 {
-    int n, m;
-    cin >> n >> m;
-    cout << n + m;
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+        if (is_simple(i))
+            cout << endl;
     return 0;
 }
