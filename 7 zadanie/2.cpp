@@ -1,51 +1,102 @@
-/*Реализовать класс `FrequencyTree` частотного словаря, используя
-двоичное дерево поиска.
-Класс должен иметь:
-1. Конструктор по умолчанию, без параметров.
-2. Метод `void addValue(int)` - принимает число и добавляет его в дерево, при
-этом для числа, добавляемого впервые, частота - 1, для вторично добавляемого
-числа частота увеличивается на 1.
-3. Метод `void printValues()` - печатает содержимое словаря в порядке
-возрастания величины числа (см. Формат выходных данных).
-Реализовать нужно только класс, main-функцию реализовывать не нужно.
-Допускается реализация рядом с основным классом служебного класса или
-структуры `TreeNode` для узла в дереве.
-Формат входных данных
-Ничего считывать с клавиатуры не требуется.
-Будет вызван метод `ftree.addValue(value);` для добавления каждого числа.
-Формат выходных данных
-Метод `ftree.printValues();` выводит на экран содержимое дерева в порядке
-возрастания значений, сохранённых в дереве, по одному элементу на строку.
-В каждой строке выводите значение элемента, затем, через пробел - частота, то
-есть сколько раз он встречается в исходной последовательности.*/
+#include <iostream>
+
+struct TreeNode
+{
+    int value;
+    int frequency;
+    TreeNode *left;
+    TreeNode *right;
+
+    TreeNode(int val) : value(val), frequency(1), left(nullptr), right(nullptr) {}
+};
+
 class FrequencyTree
 {
 private:
-public:
-    FrequencyTree();
+    TreeNode *root;
 
-    void addValue(int a)
+    void addValue(TreeNode *node, int value)
     {
+        if (value == node->value)
+        {
+            node->frequency++;
+        }
+        else if (value < node->value)
+        {
+            if (node->left)
+            {
+                addValue(node->left, value);
+            }
+            else
+            {
+                node->left = new TreeNode(value);
+            }
+        }
+        else
+        {
+            if (node->right)
+            {
+                addValue(node->right, value);
+            }
+            else
+            {
+                node->right = new TreeNode(value);
+            }
+        }
+    }
+
+    void printInOrder(TreeNode *node)
+    {
+        if (node)
+        {
+            printInOrder(node->left);
+            std::cout << node->value << " " << node->frequency << std::endl;
+            printInOrder(node->right);
+        }
+    }
+
+public:
+    FrequencyTree() : root(nullptr) {}
+
+    void addValue(int value)
+    {
+        if (!root)
+        {
+            root = new TreeNode(value);
+        }
+        else
+        {
+            addValue(root, value);
+        }
     }
 
     void printValues()
     {
+        printInOrder(root);
     }
 };
-/*Примеры
--> FrequencyTree ftree;
--> ftree.addValue(4);
--> ftree.addValue(4);
--> ftree.printValues();
---
-<- 4 2
--> FrequencyTree ftree;
--> ftree.addValue(2);
--> ftree.addValue(2);
--> ftree.addValue(2);
--> ftree.addValue(3);
--> ftree.addValue(3);
--> ftree.printValues();
---
-<- 2 3
-<- 3 2*/
+
+int main()
+{
+    // Пример использования
+    FrequencyTree ftree;
+
+    ftree.addValue(4);
+    ftree.addValue(4);
+
+    std::cout << "Output after adding 4 and 4:\n";
+    ftree.printValues();
+
+    FrequencyTree ftree2;
+
+    ftree2.addValue(2);
+    ftree2.addValue(2);
+    ftree2.addValue(2);
+    ftree2.addValue(3);
+    ftree2.addValue(3);
+
+    std::cout << "\nOutput after adding 2 three times, and 3 twice:\n";
+    ftree2.printValues();
+
+    return 0;
+}
